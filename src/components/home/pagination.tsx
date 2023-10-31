@@ -1,5 +1,5 @@
 'use client'
-import styles from './page.module.scss';
+import styles from './home.module.scss';
 import Link from 'next/link';
 import { useCoinsPage } from '@/hooks/useCoinsPage';
 import { variables } from '@/variables';

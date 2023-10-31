@@ -1,9 +1,10 @@
 'use client'
 import { useCoinsSearch } from '@/hooks/useCoinsSearch';
-import styles from './page.module.scss'
+import styles from './home.module.scss'
 import { useState } from 'react';
 import Coin from '@/interfaces/Coin.interface';
 import { variables } from '@/variables';
+import Link from 'next/link';
 
 function Header() {
     const [searchPage, setSearchPage] = useState(1);
@@ -35,6 +36,11 @@ function Header() {
 
     return (
         <div className={styles.header}>
+            <h2 className={styles.title}>
+                <Link href={'/'}>
+                    Cryptocurrency by jetie
+                </Link>
+            </h2>
             <div id={styles.shown} onClick={toogleSearch}>
                 <img src={'/search.svg'} alt='search' />
                 <div>

@@ -1,6 +1,5 @@
 'use client'
 import { CoinService } from "@/services/coins.service"
-import { useSearchParams } from "next/navigation";
 import { useQuery } from "react-query"
 
 export const useCoinsSearch = (searchStr: string, page: number) => {

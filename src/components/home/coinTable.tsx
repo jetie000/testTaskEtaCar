@@ -1,9 +1,10 @@
 'use client'
 import Coin from "@/interfaces/Coin.interface";
 import { variables } from "@/variables";
-import styles from './page.module.scss'
+import styles from './home.module.scss'
 import { useCoinsPage } from "@/hooks/useCoinsPage";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CoinTable() {
     const { isLoading, data: response, error, isSuccess, page } = useCoinsPage();
@@ -11,6 +12,7 @@ export default function CoinTable() {
     const [sortBy, setSortBy] = useState('rank');
     const [orderBy, setOrderBy] = useState('asc');
 
+    const router = useRouter();
     let coins: Coin[] = response?.data.data;
 
     if (coins?.length > 0) {
@@ -107,7 +109,7 @@ export default function CoinTable() {
                 </thead>
                 <tbody>
                     {coins ? coins.map(coin =>
-                        <tr key={coin.id}>
+                        <tr onClick={() => router.push('/coin/'+coin.id)} key={coin.id}>
                             <th>
                                 {coin.rank}
                             </th>
