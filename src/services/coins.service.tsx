@@ -28,5 +28,11 @@ export const CoinService = {
                 return axios.get('assets/' + id+ '/history?interval=h2&start='+ (Number(d)- (variables.MILL_PER_DAY * variables.DAYS_PER_WEEK)) + '&end=' + Number(d));
 
         }
+    },
+    async getByIds(ids: string){
+        let idsTemp = ids;
+        if(ids === '')
+            idsTemp = '000000000000000';
+        return axios.get('assets?ids='+idsTemp);
     }
 }

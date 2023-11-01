@@ -44,9 +44,6 @@ function Header() {
                     Cryptocurrency by jetie
                 </Link>
             </h2>
-            <Link className={styles.mycoins} href={'/mycoins'}>
-                My Coins
-            </Link>
             <div id={styles.shown} onClick={toogleSearch}>
                 <img src={'/search.svg'} alt='search' />
                 <div>

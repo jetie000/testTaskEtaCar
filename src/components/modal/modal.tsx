@@ -11,17 +11,17 @@ function Modal({ coin, isModal, setIsModal }: { coin: ICoin, isModal: boolean, s
     const buyCoin = () => {
         let coinsCase: ICoinCase[] = JSON.parse(localStorage.getItem(variables.USER_COINS)!) || [];
         let coinNum = (document.getElementById('coinNumInput') as HTMLInputElement).value;
-        if (!Number.isNaN(coinNum)) {
+        if (Number.isNaN(Number(coinNum)) || Number(coinNum) <= 0) {
+            setResponse('Error');
+        }
+        else {
             coinsCase.push({
                 id: coin.id,
                 coinNum: Number(coinNum),
                 priceUsd: coin.priceUsd
             })
             localStorage.setItem(variables.USER_COINS, JSON.stringify(coinsCase));
-            setResponse('ok');
-        }
-        else {
-            setResponse('error')
+            setResponse('Ok');
         }
     }
 
@@ -29,7 +29,6 @@ function Modal({ coin, isModal, setIsModal }: { coin: ICoin, isModal: boolean, s
         (coin && isModal) &&
         <div className={styles.shadow} onClick={() => { setIsModal(false); setResponse('') }}>
             <div className={styles.popup} onClick={e => e.stopPropagation()}>
-                <img onClick={() => { setIsModal(false); setResponse('') }} id={styles.close} src="/x-lg.svg" alt="X" />
                 <h1>Add {coin.name}</h1>
                 <h3>
                     Current price: {Number(coin.priceUsd) < 0.1
@@ -39,18 +38,20 @@ function Modal({ coin, isModal, setIsModal }: { coin: ICoin, isModal: boolean, s
                 </h3>
                 <input id="coinNumInput" type="text" placeholder="Enter coins number" onChange={e => setTotalPrice(Number(e.target.value) * coin.priceUsd)} />
                 <h3>
-                    Total price: {totalPrice ?
+                    Total price: {totalPrice && Number((document.getElementById('coinNumInput') as HTMLInputElement)?.value) >= 0 ?
                         totalPrice < 0.1
                             ? parseFloat(totalPrice.toPrecision(4))
                             : totalPrice.toFixed(3) :
-                        0}
+                        0}$
                 </h3>
                 <button onClick={buyCoin}>
                     Buy
                 </button>
-                {response != '' &&
-                    <h4>{response}</h4>
-                }
+                <div className={styles.response}>
+                    {response != '' &&
+                        <h4>{response}</h4>
+                    }
+                </div>
             </div>
         </div>
     );

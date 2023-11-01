@@ -1,0 +1,67 @@
+aside.aside {
+    margin: 150px 40px auto 0;
+    flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    & h1 {
+        text-align: center;
+    }
+
+    & .fav_item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        & img {
+            width: 40px;
+            height: 40px;
+        }
+
+        & :nth-child(3) {
+            margin-left: auto;
+        }
+
+        & button {
+            padding: 5px;
+            border: 0;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: 600;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgb(169, 169, 169);
+            }
+        }
+    }
+
+    & .purch_wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        & .purch_item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+
+            & img {
+                width: 40px;
+                height: 40px;
+            }
+
+            & :nth-child(3) {
+                margin-left: auto;
+            }
+
+        }
+
+    }
+
+    & .total {
+        margin-top: 20px;
+    }
+}

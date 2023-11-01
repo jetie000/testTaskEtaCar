@@ -43,13 +43,9 @@
                 background-color: rgb(187, 187, 187);
             }
         }
-    }
-}
 
-#close{
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    margin-left: auto;
+        & .response{
+            text-align: center;
+        }
+    }
 }
