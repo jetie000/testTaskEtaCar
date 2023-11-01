@@ -1,7 +1,7 @@
 'use client'
 import ICoin from '@/interfaces/Coin.interface';
 import styles from './coin.module.scss';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import IChartData from '@/interfaces/IChartData';
 // @ts-ignore
 import CanvasJSReact from '@canvasjs/react-charts';

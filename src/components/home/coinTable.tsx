@@ -18,11 +18,15 @@ export default function CoinTable() {
 
     const router = useRouter();
     let coins: ICoin[] = response?.data.data;
-    const [favCoins, setFavCoins] = useState<string[]>(JSON.parse(localStorage.getItem(variables.FAV_COINS)!) || []);
+    const [favCoins, setFavCoins] = useState<string[]>([]);
 
     useEffect(() => {
         localStorage.setItem(variables.FAV_COINS, JSON.stringify(favCoins));
     }, [favCoins])
+
+    useEffect(() => {
+        setFavCoins(JSON.parse(localStorage.getItem(variables.FAV_COINS) || '[]'));
+    }, [])
 
     const addFavCoin = (coinId: string) => {
         setFavCoins((prev) => [...prev, coinId]);

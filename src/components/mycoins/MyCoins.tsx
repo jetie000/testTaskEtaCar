@@ -7,7 +7,7 @@ import { ICoinCase } from '@/interfaces/ICoinCase';
 
 function MyCoins({ favCoins, setCurrCoin, setIsModal }: { favCoins: string[], setCurrCoin: Function, setIsModal: Function }) {
     const { data: response, isSuccess } = useCoinByIds(favCoins.join(','));
-    let purchases: ICoinCase[] = JSON.parse(localStorage.getItem(variables.USER_COINS)!);
+    let purchases: ICoinCase[] = JSON.parse(localStorage.getItem(variables.USER_COINS)! || '[]');
     const { data: responsePurch, isSuccess: isSuccessPurch } = useCoinByIds(JSON
         .parse(localStorage.getItem(variables.USER_COINS)! || '[]')
         .map((coin: ICoin) => coin.id)
@@ -20,7 +20,7 @@ function MyCoins({ favCoins, setCurrCoin, setIsModal }: { favCoins: string[], se
             <h1>My coins</h1>
             {
                 isSuccess ? (
-                    response?.data.data.length > 0 ?
+                    response?.data.data?.length > 0 ?
                         (response?.data.data as ICoin[]).map(favCoin =>
                             <div className={styles.fav_item} key={favCoin.id}>
                                 <img loading="lazy"
@@ -46,7 +46,7 @@ function MyCoins({ favCoins, setCurrCoin, setIsModal }: { favCoins: string[], se
             <h1>My purchases</h1>
             {
                 isSuccessPurch ? (
-                    purchases.length > 0 ?
+                    purchases?.length > 0 ?
                         (purchases as ICoinCase[]).map(purchCoin => {
                             let coinFromApi = (responsePurch?.data.data as ICoin[]).find(coin => coin.id === purchCoin.id)!;
                             return <div className={styles.purch_wrapper} key={coinFromApi.id + purchCoin.coinNum + purchCoin.priceUsd}>

@@ -13,11 +13,15 @@ function CoinPage({ id }: { id: string }) {
     let coin: ICoin = (response as { data: { data: ICoin } })?.data.data;
 
     const [isModal, setIsModal] = useState(false);
-    const [favCoins, setFavCoins] = useState<string[]>(JSON.parse(localStorage.getItem(variables.FAV_COINS)!) || []);
+    const [favCoins, setFavCoins] = useState<string[]>([]);
 
     useEffect(() => {
         localStorage.setItem(variables.FAV_COINS, JSON.stringify(favCoins));
     }, [favCoins])
+
+    useEffect(() => {
+        setFavCoins(JSON.parse(localStorage.getItem(variables.FAV_COINS) || '[]'))
+    }, [])
 
     const addFavCoin = (coinId: string) => {
         setFavCoins((prev) => [...prev, coinId]);
