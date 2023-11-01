@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@canvasjs/charts": "^3.7.26",
+    "@types/canvasjs": "^1.9.10",
     "axios": "^1.6.0",
     "next": "14.0.0",
     "react": "^18",
@@ -18,6 +20,7 @@
     "scss": "^0.2.4"
   },
   "devDependencies": {
+    "@canvasjs/react-charts": "1.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

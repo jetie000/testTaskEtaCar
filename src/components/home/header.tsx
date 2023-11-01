@@ -2,9 +2,10 @@
 import { useCoinsSearch } from '@/hooks/useCoinsSearch';
 import styles from './home.module.scss'
 import { useState } from 'react';
-import Coin from '@/interfaces/Coin.interface';
+import ICoin from '@/interfaces/Coin.interface';
 import { variables } from '@/variables';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 function Header() {
     const [searchPage, setSearchPage] = useState(1);
@@ -12,7 +13,9 @@ function Header() {
 
     let { isLoading, data: response, error, isSuccess } = useCoinsSearch(searchVal, searchPage);
 
-    let coins: Coin[] = response?.data.data;
+    let coins: ICoin[] = response?.data.data;
+
+    const router = useRouter();
 
     const handleSearchClick = () => {
         setSearchVal((document.getElementById('searchInput') as HTMLInputElement).value);
@@ -41,6 +44,9 @@ function Header() {
                     Cryptocurrency by jetie
                 </Link>
             </h2>
+            <Link className={styles.mycoins} href={'/mycoins'}>
+                My Coins
+            </Link>
             <div id={styles.shown} onClick={toogleSearch}>
                 <img src={'/search.svg'} alt='search' />
                 <div>
@@ -60,7 +66,7 @@ function Header() {
                 {coins?.length > 0 &&
                     < div className={styles.items}>
                         {coins?.length > 0 ? coins.slice(0, coins.length - 1).map(coin =>
-                            <div className={styles.item} key={coin.id}>
+                            <div className={styles.item + ' ' + styles.coin_search} key={coin.id} onClick={() => router.push('/coin/' + coin.id)}>
                                 <img className={styles.coin_img} loading="lazy"
                                     src={variables.COIN_ICONS_API_URL + coin.symbol.toLowerCase()}
                                     alt={coin.id} />

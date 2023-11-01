@@ -7,11 +7,21 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  z-index: 2;
+  transition: 0.5s ease-in-out;
 
-  & .title{
-    margin-right: auto;
+  & .title {
     margin-left: 30px;
     cursor: pointer;
+  }
+
+  & .mycoins{
+    margin-left: 50px;
+    margin-right: auto;
+    background-color: #c5c5c5;
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 10px;
   }
 
   & div#hidden {
@@ -37,6 +47,16 @@
       gap: 5px;
       align-items: center;
       padding: 0 5px 0;
+
+      &.coin_search {
+        padding: 5px;
+        border-radius: 10px;
+      }
+
+      &.coin_search:hover {
+        cursor: pointer;
+        background-color: #dedede;
+      }
 
       & input {
         flex-grow: 1;
@@ -117,10 +137,6 @@
         padding: 10px;
         cursor: pointer;
 
-        & img {
-          cursor: pointer;
-        }
-
         & div.empty {
           width: 16px;
           height: 16px;
@@ -128,10 +144,14 @@
         }
 
         &:nth-child(1) {
-          text-align: start;
+          cursor: default;
         }
 
         &:nth-child(2) {
+          text-align: start;
+        }
+
+        &:nth-child(3) {
           text-align: start;
         }
 
@@ -147,7 +167,7 @@
     & th {
       padding: 10px;
 
-      &:nth-child(2) {
+      &:nth-child(3) {
         text-align: start;
         display: flex;
         align-items: center;
@@ -159,7 +179,7 @@
         }
       }
 
-      &:nth-child(1) {
+      &:nth-child(2) {
         text-align: center;
       }
 
@@ -171,9 +191,9 @@
         font-size: inherit;
         font-weight: inherit;
         cursor: pointer;
-    
+
         &:hover {
-          background-color: rgb(193, 193, 193);
+          background-color: rgb(169, 169, 169);
         }
       }
     }

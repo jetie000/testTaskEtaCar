@@ -16,5 +16,17 @@ export const CoinService = {
         let offset = Number(page) < 1 ? 0 : (Number(page) - 1) * (variables.COINS_PER_SEARCH - 1);
         if(searchStr !== '')
             return axios.get('assets?limit=' + (offset + variables.COINS_PER_SEARCH) + '&search=' + searchStr);
+    },
+    async getPriceGraph(id: string, period: string){
+        let d = new Date();
+        switch(period){
+            case 'month':
+                return axios.get('assets/' + id+ '/history?interval=h12&start='+(Number(d)- (variables.MILL_PER_DAY * variables.DAYS_PER_WEEK * 4)) + '&end=' + Number(d));
+            case 'day':
+                return axios.get('assets/' + id+ '/history?interval=m30&start='+ (Number(d)-variables.MILL_PER_DAY) + '&end=' + Number(d));
+            case 'week': default:
+                return axios.get('assets/' + id+ '/history?interval=h2&start='+ (Number(d)- (variables.MILL_PER_DAY * variables.DAYS_PER_WEEK)) + '&end=' + Number(d));
+
+        }
     }
 }

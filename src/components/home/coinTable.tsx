@@ -1,35 +1,49 @@
 'use client'
-import Coin from "@/interfaces/Coin.interface";
+import ICoin from "@/interfaces/Coin.interface";
 import { variables } from "@/variables";
 import styles from './home.module.scss'
 import { useCoinsPage } from "@/hooks/useCoinsPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Modal from "../modal/modal";
 
 export default function CoinTable() {
     const { isLoading, data: response, error, isSuccess, page } = useCoinsPage();
 
     const [sortBy, setSortBy] = useState('rank');
     const [orderBy, setOrderBy] = useState('asc');
+    const [isModal, setIsModal] = useState(false);
+    const [currCoin, setCurrCoin] = useState<ICoin>();
 
     const router = useRouter();
-    let coins: Coin[] = response?.data.data;
+    let coins: ICoin[] = response?.data.data;
+    const [favCoins, setFavCoins] = useState<string[]>(JSON.parse(localStorage.getItem(variables.FAV_COINS)!) || []);
+
+    useEffect(()=> {
+        localStorage.setItem(variables.FAV_COINS, JSON.stringify(favCoins));
+    }, [favCoins])
+
+    const addFavCoin = (coinId: string) => {
+        setFavCoins((prev) => [...prev, coinId]);
+    }
+    const removeFavCoin = (coinId: string) => {
+        setFavCoins(favCoins.filter(coin => coin != coinId));
+    }
 
     if (coins?.length > 0) {
-        if (Number.isNaN(Number(coins[0][sortBy as keyof Coin])))
+        if (Number.isNaN(Number(coins[0][sortBy as keyof ICoin])))
             coins = coins.sort((coin1, coin2) =>
-                coin1[sortBy as keyof Coin]! > coin2[sortBy as keyof Coin]!
+                coin1[sortBy as keyof ICoin]! > coin2[sortBy as keyof ICoin]!
                     ? (orderBy === 'asc' ? 1 : -1)
                     : (orderBy === 'asc' ? -1 : 1)
             );
         else
             coins = coins.sort((coin1, coin2) =>
-                Number(coin1[sortBy as keyof Coin]!) > Number(coin2[sortBy as keyof Coin]!)
+                Number(coin1[sortBy as keyof ICoin]!) > Number(coin2[sortBy as keyof ICoin]!)
                     ? (orderBy === 'asc' ? 1 : -1)
                     : (orderBy === 'asc' ? -1 : 1)
             );
     }
-
 
     const sortCoins = (param: string) => {
         console.log(param);
@@ -49,9 +63,12 @@ export default function CoinTable() {
                 Loading...
             </h1>
             :
-            <table cellSpacing={0} className={styles.coin_table}>
+            <><table cellSpacing={0} className={styles.coin_table}>
                 <thead>
                     <tr>
+                        <th>
+                            <img src="/star.svg" alt="star" />
+                        </th>
                         <th onClick={() => sortCoins('rank')}>
                             #
                             {sortBy === 'rank' ?
@@ -109,30 +126,36 @@ export default function CoinTable() {
                 </thead>
                 <tbody>
                     {coins ? coins.map(coin =>
-                        <tr onClick={() => router.push('/coin/'+coin.id)} key={coin.id}>
-                            <th>
+                        <tr key={coin.id}>
+                            <th onClick={favCoins.find(coinId => coinId === coin.id) 
+                            ? () => removeFavCoin(coin.id)
+                            : () => addFavCoin(coin.id)
+                        }>
+                                <img src={favCoins.find(coinId => coinId === coin.id) ? "/star-fill.svg" : "/star.svg"} alt="starfill" />
+                            </th>
+                            <th onClick={() => router.push('/coin/' + coin.id)}>
                                 {coin.rank}
                             </th>
-                            <th>
+                            <th onClick={() => router.push('/coin/' + coin.id)}>
                                 <img loading="lazy"
                                     src={variables.COIN_ICONS_API_URL + (coin.symbol.toLowerCase() != '' ? coin.symbol.toLowerCase() : 'notfound')}
                                     alt={coin.id}
                                 />
                                 <div>{coin.name}</div>
                             </th>
-                            <th>
+                            <th onClick={() => router.push('/coin/' + coin.id)}>
                                 {Number(coin.priceUsd) < 0.01
                                     ? parseFloat(Number(coin.priceUsd).toPrecision(2))
                                     : Number(coin.priceUsd).toFixed(2)}$
                             </th>
-                            <th>
+                            <th onClick={() => router.push('/coin/' + coin.id)}>
                                 {Number(coin.marketCapUsd) === 0
                                     ? '-'
                                     : Math.abs(Number(coin.marketCapUsd)) < 0.01
                                         ? Math.abs(Number(coin.marketCapUsd)).toPrecision(2)
                                         : Math.abs(Number(coin.marketCapUsd)).toFixed(2) + '$'}
                             </th>
-                            <th>
+                            <th onClick={() => router.push('/coin/' + coin.id)}>
                                 {Number(coin.changePercent24Hr) === 0
                                     ? '-'
                                     : (Math.abs(Number(coin.changePercent24Hr)) < 0.01
@@ -141,12 +164,16 @@ export default function CoinTable() {
 
                             </th>
                             <th>
-                                <button>Add</button>
+                                <button onClick={() => {setCurrCoin(coin); setIsModal(true)}}>
+                                    Add
+                                </button>
                             </th>
                         </tr>)
                         : <></>
                     }
                 </tbody>
             </table>
+                <Modal coin={currCoin!} isModal={isModal} setIsModal={setIsModal} />
+            </>
     );
 }
