@@ -27,10 +27,10 @@ export default function CoinTable() {
     const setFavCoins = useSetLocalFavs();
 
     const addFavCoin = (coinId: string) => {
-        setFavCoins.mutate(favCoins!.concat(coinId));
+        setFavCoins.mutate((favCoins|| []).concat(coinId));
     }
     const removeFavCoin = (coinId: string) => {
-        setFavCoins.mutate(favCoins!.filter(coin => coin != coinId));
+        setFavCoins.mutate((favCoins || [])!.filter(coin => coin != coinId));
     }
 
     if (coins?.length > 0) {

@@ -23,10 +23,10 @@ function CoinPage({ id }: { id: string }) {
     const setFavCoins = useSetLocalFavs();
 
     const addFavCoin = (coinId: string) => {
-        setFavCoins.mutate(responseFavs!.concat(coinId));
+        setFavCoins.mutate((responseFavs || []).concat(coinId));
     }
     const removeFavCoin = (coinId: string) => {
-        setFavCoins.mutate(responseFavs!.filter(coin => coin != coinId));
+        setFavCoins.mutate((responseFavs || []).filter(coin => coin != coinId));
     }
 
     return (
