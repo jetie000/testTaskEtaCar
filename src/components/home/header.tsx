@@ -91,7 +91,7 @@ function Header() {
                 <div id={styles.popular}>
                     {isSuccessPopular &&
                         responsePopular?.data.data.map((coin: ICoin) =>
-                            <div>
+                            <div key={coin.id}>
                                 <div>#{coin.rank}</div>
                                 <img loading="lazy"
                                     src={variables.COIN_ICONS_API_URL + (coin.symbol.toLowerCase() != '' ? coin.symbol.toLowerCase() : 'notfound')}
