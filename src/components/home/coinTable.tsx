@@ -136,7 +136,7 @@ export default function CoinTable() {
                                     ? () => removeFavCoin(coin.id)
                                     : () => addFavCoin(coin.id)
                                 }>
-                                    <img src={favCoins!.find(coinId => coinId === coin.id) ? "/star-fill.svg" : "/star.svg"} alt="starfill" />
+                                    <img src={(favCoins || []).find(coinId => coinId === coin.id) ? "/star-fill.svg" : "/star.svg"} alt="starfill" />
                                 </th>
                                 <th onClick={() => router.push('/coin/' + coin.id)}>
                                     {coin.rank}

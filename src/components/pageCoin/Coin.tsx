@@ -39,7 +39,7 @@ function CoinPage({ id }: { id: string }) {
                                 <h1># {coin.rank}</h1>
                                 <img
                                     className={styles.fav_img}
-                                    src={responseFavs!.find(coinId => coinId === coin.id)
+                                    src={(responseFavs || []).find(coinId => coinId === coin.id)
                                         ? "/star-fill.svg"
                                         : "/star.svg"}
                                     alt="starfill"
