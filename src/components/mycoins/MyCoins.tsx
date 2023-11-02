@@ -35,7 +35,7 @@ function MyCoins({ setResponse, setCurrCoin, setModalPurpose }: { setResponse: F
     const { data: purchases, isSuccess: isSuccessPurchases } = usePurchases();
     const setPurchases = useSetPurchases();
     (purchases as ICoinCase[] || []).forEach((purchCoin) => (total += (Number((responsePurch?.data.data as ICoin[])?.find(coin => coin.id === purchCoin.id)!.priceUsd) - Number(purchCoin.priceUsd)) * purchCoin.coinNum));
-    
+
     return (
         <Modal setResponse={setResponse} setModalPurpose={setModalPurpose} isHeader={false}>
             <div className={styles.my_coins}>
@@ -73,7 +73,7 @@ function MyCoins({ setResponse, setCurrCoin, setModalPurpose }: { setResponse: F
                 }
                 <h1>My purchases</h1>
                 {
-                    isSuccessPurch ? (
+                    (isSuccessPurchases && isSuccessPurch) ? (
                         purchases!.length > 0 ?
                             (purchases as ICoinCase[]).map((purchCoin, index) => {
                                 let coinFromApi = (responsePurch?.data.data as ICoin[]).find(coin => coin.id === purchCoin.id)!;
