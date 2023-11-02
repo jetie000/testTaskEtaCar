@@ -43,7 +43,7 @@ function CoinPage({ id }: { id: string }) {
                                         ? "/star-fill.svg"
                                         : "/star.svg"}
                                     alt="starfill"
-                                    onClick={responseFavs!.find(coinId => coinId === coin.id)
+                                    onClick={(responseFavs || []).find(coinId => coinId === coin.id)
                                         ? () => removeFavCoin(coin.id)
                                         : () => addFavCoin(coin.id)
                                     } />
