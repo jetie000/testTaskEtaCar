@@ -1,104 +1,178 @@
+.body_burger_active {
+  overflow: hidden;
+}
+
 .header {
   top: 0;
   position: fixed;
   width: 100%;
   min-height: 50px;
   background-color: rgb(225, 225, 225);
+  padding: 5px;
+  z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  z-index: 2;
-  transition: 0.5s ease-in-out;
 
   & .title {
     margin-left: 30px;
-    margin-right: auto;
     cursor: pointer;
   }
 
-  & div#hidden {
-    min-width: 400px;
-    background-color: white;
-    visibility: hidden;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    margin: 5px;
-    gap: 5px;
-    border-radius: 20px;
-    align-self: flex-start;
 
-    & div.items {
-      overflow-y: auto;
-      max-height: 350px;
+  & nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+
+    &.nav_active {
+      transform: translateX(0%);
     }
 
-    & div.item {
-      flex-grow: 1;
+
+    & button.mycoins_link {
+      margin-left: 30px;
+      margin-right: auto;
+      font-family: inherit;
+      font-size: inherit;
+      padding: 8px;
+      border: 0;
+      border-radius: 10px;
+      cursor: pointer;
+      background-color: #bdbdbd;
+
+      &:hover {
+        background-color: rgb(174, 174, 174);
+      }
+    }
+
+    & div#hidden {
+      min-width: 400px;
+      background-color: white;
+      visibility: hidden;
+      position: fixed;
       display: flex;
+      flex-direction: column;
       gap: 5px;
-      align-items: center;
-      padding: 0 5px 0;
+      border-radius: 20px;
+      align-self: flex-start;
 
-      &.coin_search {
-        padding: 5px;
-        border-radius: 10px;
+      & div.items {
+        overflow-y: auto;
+        max-height: 350px;
       }
 
-      &.coin_search:hover {
-        cursor: pointer;
-        background-color: #dedede;
-      }
-
-      & input {
+      & div.item {
         flex-grow: 1;
-        padding: 10px;
-        border: 0;
-        border-radius: 5px;
-        font-family: inherit;
-        font-size: inherit;
-        font-weight: inherit;
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        padding: 0 5px 0;
 
-        &:focus {
-          outline: 0;
+        &.coin_search {
+          padding: 5px;
+          border-radius: 10px;
+        }
+
+        &.coin_search:hover {
+          cursor: pointer;
+          background-color: #dedede;
+        }
+
+        & input {
+          flex-grow: 1;
+          padding: 10px;
+          border: 0;
+          border-radius: 5px;
+          font-family: inherit;
+          font-size: inherit;
+          font-weight: inherit;
+
+          &:focus {
+            outline: 0;
+          }
+        }
+
+        & button {
+          border: 0;
+          width: 35px;
+          height: 35px;
+          border-radius: 20px;
+          background-color: rgb(208, 208, 208);
+          cursor: pointer;
+        }
+
+        & .price {
+          margin-left: auto;
+        }
+
+        & .coin_img {
+          width: 35px;
+          height: 35px;
         }
       }
 
-      & button {
-        border: 0;
-        width: 35px;
-        height: 35px;
-        border-radius: 20px;
-        background-color: rgb(208, 208, 208);
+      & div.nores {
+        margin: 0 20px 5px;
+      }
+
+      & div.show_more {
+        background-color: rgb(203, 203, 203);
+        padding: 10px;
         cursor: pointer;
-      }
+        display: flex;
+        justify-content: center;
+        border-radius: 20px;
 
-      & .price {
-        margin-left: auto;
-      }
-
-      & .coin_img {
-        width: 35px;
-        height: 35px;
+        &:hover {
+          background-color: rgb(181, 181, 181);
+        }
       }
     }
 
-    & div.nores {
-      margin: 0 20px 5px;
-    }
+  }
 
-    & div.show_more {
-      background-color: rgb(203, 203, 203);
-      padding: 10px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      border-radius: 20px;
+  & .burger {
+    width: 30px;
+    height: 22px;
+    position: relative;
+    margin-left: 10px;
+    display: none;
+    cursor: pointer;
 
-      &:hover {
-        background-color: rgb(181, 181, 181);
+    & .burger_line {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background-color: #979797;
+      position: absolute;
+      left: 0;
+
+      &:nth-child(1) {
+        top: 0;
+      }
+
+      &:nth-child(2) {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &:nth-child(3) {
+        bottom: 0;
       }
     }
+
+  }
+
+  & .cover_active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(41, 41, 41, 0.6);
+    z-index: 2;
+    transition: .2s;
   }
 
   & div#shown {
@@ -112,9 +186,27 @@
     background-color: white;
     cursor: pointer;
   }
+
+  & #popular {
+    color: #ebebeb;
+    display: none;
+    gap: 10px;
+    flex-direction: column;
+    margin-top: 20px;
+    & div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      & img {
+        width: 40px;
+        height: 40px;
+
+      }
+    }
+  }
 }
 
-.blocks_wrapper{
+.blocks_wrapper {
   display: flex;
   gap: 20px;
 }
@@ -124,9 +216,9 @@
   text-align: end;
   align-content: center;
   margin: 50px auto 2rem;
-  overflow-y: scroll;
 
   & thead {
+
     & tr {
       background-color: rgb(232, 232, 232);
 
@@ -160,48 +252,52 @@
     }
   }
 
-  & tbody tr {
-    & th {
-      padding: 10px;
+  & tbody {
 
-      &:nth-child(3) {
-        text-align: start;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+    & tr {
+      & th {
+        padding: 10px;
 
-        & img {
-          width: 40px;
-          height: 40px;
+        &:nth-child(3) {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          text-align: start;
+          word-wrap: break-word;
+
+          & img {
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        &:nth-child(2) {
+          text-align: center;
+        }
+
+        &:last-child button {
+          padding: 5px;
+          border: 0;
+          border-radius: 5px;
+          font-family: inherit;
+          font-size: inherit;
+          font-weight: inherit;
+          cursor: pointer;
+
+          &:hover {
+            background-color: rgb(169, 169, 169);
+          }
         }
       }
 
-      &:nth-child(2) {
-        text-align: center;
+      &:nth-child(2n) {
+        background-color: rgb(232, 232, 232);
       }
 
-      &:last-child button {
-        padding: 5px;
-        border: 0;
-        border-radius: 5px;
-        font-family: inherit;
-        font-size: inherit;
-        font-weight: inherit;
+      &:hover {
         cursor: pointer;
-
-        &:hover {
-          background-color: rgb(169, 169, 169);
-        }
+        background-color: darken($color: #c6c6c6, $amount: 0.5);
       }
-    }
-
-    &:nth-child(2n) {
-      background-color: rgb(232, 232, 232);
-    }
-
-    &:hover {
-      cursor: pointer;
-      background-color: darken($color: #c6c6c6, $amount: 0.5);
     }
   }
 }
@@ -242,5 +338,110 @@
     &.disabled:hover {
       cursor: default;
     }
+  }
+}
+
+@media (max-width: 800px) {
+  .coin_table {
+    min-width: 700px;
+  }
+}
+
+@media (max-width: 700px) {
+  .burger {
+    display: block !important;
+    transition: .2s;
+    z-index: 3;
+
+    &.header_burger_active {
+      display: block;
+      z-index: 5;
+      transform: rotate(90deg);
+      transition: .2s;
+    }
+  }
+
+  .header {
+    & nav {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 320px;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #555555;
+      z-index: 3;
+      transform: translateX(-100%);
+      transition: .2s all linear;
+      padding-top: 5px;
+
+      & #shown {
+        margin: 0;
+      }
+
+      & #popular{
+        display: flex;
+      }
+
+      & #hidden {
+        margin-top: 106px;
+        margin-left: 5px;
+        min-width: 310px !important;
+
+        & .item input {
+          width: 210px;
+        }
+      }
+
+      & button.mycoins_link {
+        margin: 50px 0 20px;
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+    }
+
+    & .title {
+      font-size: 20px;
+    }
+  }
+
+  .coin_table {
+    min-width: 318px;
+
+    & thead tr {
+      display: flex;
+      flex-wrap: wrap;
+
+      & th {
+        text-align: center !important;
+        width: 50%;
+        &:nth-child(3), &:nth-child(4), &:nth-child(5){
+          width: 100%;
+        }
+      }
+    }
+
+    & tbody tr {
+      display: flex;
+      flex-wrap: wrap;
+
+      & th {
+        text-align: center !important;
+        width: 50%;
+        &:nth-child(3), &:nth-child(4), &:nth-child(5){
+          width: 100%;
+        }
+        justify-content: center;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 350px) {
+  .header .title{
+    font-size: 16px;
   }
 }

@@ -1,6 +1,4 @@
-aside.aside {
-    margin: 150px 40px auto 0;
-    flex-grow: 0;
+.my_coins {
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -19,7 +17,12 @@ aside.aside {
             height: 40px;
         }
 
-        & :nth-child(3) {
+        & img.fav{
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        & :nth-child(4) {
             margin-left: auto;
         }
 
@@ -56,7 +59,9 @@ aside.aside {
             & :nth-child(3) {
                 margin-left: auto;
             }
-
+            & button{
+                font-weight: 600;
+            }
         }
 
     }

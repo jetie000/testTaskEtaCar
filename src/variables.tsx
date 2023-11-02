@@ -7,5 +7,6 @@ export const variables = {
     MILL_PER_DAY: 86400000,
     DAYS_PER_WEEK: 7,
     USER_COINS: 'user_coins',
-    FAV_COINS: 'fav_coins'
+    FAV_COINS: 'fav_coins',
+    POPULAR_COIN_NUM: 3
 }

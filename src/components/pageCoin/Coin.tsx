@@ -7,27 +7,26 @@ import Link from 'next/link';
 import Graph from './graph';
 import Modal from '../modal/modal';
 import { useEffect, useState } from 'react';
+import AddCoinModalContent from '../modal/addCoinModalContent';
+import { useSetLocalFavs } from '@/hooks/useSetLocalFavs';
+import { useLocalFavs } from '@/hooks/useLocalFavs';
 
 function CoinPage({ id }: { id: string }) {
     const { isLoading, data: response, error, isSuccess, isError } = useCoin(id);
     let coin: ICoin = (response as { data: { data: ICoin } })?.data.data;
 
-    const [isModal, setIsModal] = useState(false);
-    const [favCoins, setFavCoins] = useState<string[]>([]);
+    const [modalPurpose, setModalPurpose] = useState('');
+    const [responseAdd, setResponseAdd] = useState('')
 
-    useEffect(() => {
-        localStorage.setItem(variables.FAV_COINS, JSON.stringify(favCoins));
-    }, [favCoins])
-
-    useEffect(() => {
-        setFavCoins(JSON.parse(localStorage.getItem(variables.FAV_COINS) || '[]'))
-    }, [])
+    
+    const { data: responseFavs, isSuccess: isSuccessLocalFavs } = useLocalFavs();
+    const setFavCoins = useSetLocalFavs();
 
     const addFavCoin = (coinId: string) => {
-        setFavCoins((prev) => [...prev, coinId]);
+        setFavCoins.mutate(responseFavs!.concat(coinId));
     }
     const removeFavCoin = (coinId: string) => {
-        setFavCoins(favCoins.filter(coin => coin != coinId));
+        setFavCoins.mutate(responseFavs!.filter(coin => coin != coinId));
     }
 
     return (
@@ -40,14 +39,14 @@ function CoinPage({ id }: { id: string }) {
                                 <h1># {coin.rank}</h1>
                                 <img
                                     className={styles.fav_img}
-                                    src={favCoins.find(coinId => coinId === coin.id)
+                                    src={responseFavs!.find(coinId => coinId === coin.id)
                                         ? "/star-fill.svg"
                                         : "/star.svg"}
-                                    alt="starfill" 
-                                    onClick={favCoins.find(coinId => coinId === coin.id) 
+                                    alt="starfill"
+                                    onClick={responseFavs!.find(coinId => coinId === coin.id)
                                         ? () => removeFavCoin(coin.id)
                                         : () => addFavCoin(coin.id)
-                                    }/>
+                                    } />
                             </div>
                             <div className={styles.coin_title}>
                                 <img loading="lazy"
@@ -105,7 +104,7 @@ function CoinPage({ id }: { id: string }) {
                                     </div>
                                 </div>
                             </h3>
-                            <button onClick={() => setIsModal(true)} id={styles.add_button}>
+                            <button onClick={() => setModalPurpose('add') } id={styles.add_button}>
                                 Add
                             </button>
                         </div>
@@ -121,7 +120,12 @@ function CoinPage({ id }: { id: string }) {
                         </h1>
                     )
             }
-            <Modal coin={coin} isModal={isModal} setIsModal={setIsModal} />
+            {   modalPurpose === 'add' &&
+                <Modal setModalPurpose={setModalPurpose} setResponse={setResponseAdd} isHeader={false}>
+                    <AddCoinModalContent coin={coin} responseAdd={responseAdd} setResponseAdd={setResponseAdd}/>
+                    <></>
+                </Modal>
+            }
         </div >
     );
 }

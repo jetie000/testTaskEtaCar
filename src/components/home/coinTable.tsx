@@ -6,33 +6,31 @@ import { useCoinsPage } from "@/hooks/useCoinsPage";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "../modal/modal";
-import MyCoins from "../mycoins/MyCoins";
+import AddCoinModalContent from "../modal/addCoinModalContent";
+import { useSetLocalFavs } from "@/hooks/useSetLocalFavs";
+import { useLocalFavs } from "@/hooks/useLocalFavs";
 
 export default function CoinTable() {
     const { isLoading, data: response, error, isSuccess, page } = useCoinsPage();
 
     const [sortBy, setSortBy] = useState('rank');
     const [orderBy, setOrderBy] = useState('asc');
-    const [isModal, setIsModal] = useState(false);
+    const [modalPurpose, setModalPurpose] = useState('');
     const [currCoin, setCurrCoin] = useState<ICoin>();
+    const [responseAdd, setResponseAdd] = useState('')
 
     const router = useRouter();
     let coins: ICoin[] = response?.data.data;
-    const [favCoins, setFavCoins] = useState<string[]>([]);
 
-    useEffect(() => {
-        localStorage.setItem(variables.FAV_COINS, JSON.stringify(favCoins));
-    }, [favCoins])
-
-    useEffect(() => {
-        setFavCoins(JSON.parse(localStorage.getItem(variables.FAV_COINS) || '[]'));
-    }, [])
+    
+    const { data: favCoins, isSuccess: isSuccessLocalFavs } = useLocalFavs();
+    const setFavCoins = useSetLocalFavs();
 
     const addFavCoin = (coinId: string) => {
-        setFavCoins((prev) => [...prev, coinId]);
+        setFavCoins.mutate(favCoins!.concat(coinId));
     }
     const removeFavCoin = (coinId: string) => {
-        setFavCoins(favCoins.filter(coin => coin != coinId));
+        setFavCoins.mutate(favCoins!.filter(coin => coin != coinId));
     }
 
     if (coins?.length > 0) {
@@ -60,6 +58,7 @@ export default function CoinTable() {
             setOrderBy('asc');
         }
     }
+
 
     return (
         isLoading
@@ -133,11 +132,11 @@ export default function CoinTable() {
                     <tbody>
                         {coins ? coins.map(coin =>
                             <tr key={coin.id}>
-                                <th onClick={favCoins.find(coinId => coinId === coin.id)
+                                <th onClick={favCoins!.find(coinId => coinId === coin.id)
                                     ? () => removeFavCoin(coin.id)
                                     : () => addFavCoin(coin.id)
                                 }>
-                                    <img src={favCoins.find(coinId => coinId === coin.id) ? "/star-fill.svg" : "/star.svg"} alt="starfill" />
+                                    <img src={favCoins!.find(coinId => coinId === coin.id) ? "/star-fill.svg" : "/star.svg"} alt="starfill" />
                                 </th>
                                 <th onClick={() => router.push('/coin/' + coin.id)}>
                                     {coin.rank}
@@ -170,7 +169,7 @@ export default function CoinTable() {
 
                                 </th>
                                 <th>
-                                    <button onClick={() => { setCurrCoin(coin); setIsModal(true) }}>
+                                    <button onClick={() => { setCurrCoin(coin); setModalPurpose('add') }}>
                                         Add
                                     </button>
                                 </th>
@@ -179,8 +178,13 @@ export default function CoinTable() {
                         }
                     </tbody>
                 </table>
-                <Modal coin={currCoin!} isModal={isModal} setIsModal={setIsModal} />
-                <MyCoins setIsModal={setIsModal} favCoins={favCoins} setCurrCoin={setCurrCoin}/>
+
+                {(currCoin && modalPurpose === 'add') &&
+                    <Modal setModalPurpose={setModalPurpose} setResponse={setResponseAdd} isHeader={false}>
+                        <AddCoinModalContent coin={currCoin} responseAdd={responseAdd} setResponseAdd={setResponseAdd} />
+                        <></>
+                    </Modal>
+                }
             </div>
     );
 }
