@@ -74,7 +74,7 @@ function MyCoins({ setResponse, setCurrCoin, setModalPurpose }: { setResponse: F
                 <h1>My purchases</h1>
                 {
                     (isSuccessPurchases && isSuccessPurch) ? (
-                        purchases!.length > 0 ?
+                        (purchases || []).length > 0 ?
                             (purchases as ICoinCase[]).map((purchCoin, index) => {
                                 let coinFromApi = (responsePurch?.data.data as ICoin[]).find(coin => coin.id === purchCoin.id)!;
                                 return <div className={styles.purch_wrapper} key={coinFromApi.id + purchCoin.coinNum + purchCoin.priceUsd}>
