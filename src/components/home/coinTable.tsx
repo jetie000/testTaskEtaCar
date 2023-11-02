@@ -130,7 +130,7 @@ export default function CoinTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {coins ? coins.map(coin =>
+                        {(coins && isSuccessLocalFavs) ? coins.map(coin =>
                             <tr key={coin.id}>
                                 <th onClick={favCoins!.find(coinId => coinId === coin.id)
                                     ? () => removeFavCoin(coin.id)

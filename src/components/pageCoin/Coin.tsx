@@ -32,7 +32,7 @@ function CoinPage({ id }: { id: string }) {
     return (
         <div className={styles.wrapper} >
             {
-                isSuccess ?
+                (isSuccess && isSuccessLocalFavs) ?
                     <div className={styles.coin}>
                         <div className={styles.wrapper_left}>
                             <div className={styles.coin_title}>
